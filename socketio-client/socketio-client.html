@@ -1,0 +1,188 @@
+<!-- Config -->
+<script type="text/javascript">
+    "use strict";
+    /*global RED*/
+    RED.nodes.registerType('socketio-config-advantage', {
+        category: 'config',
+        defaults: {
+            host: {
+                value: "http://localhost",
+                required: true
+            },
+            port: {
+                value: "",
+                required: false,
+                validate: RED.validators.number()
+            }
+        },
+        label: function () {
+            return this.host + ":" + this.port;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="socketio-config-advantage">
+    <div class="form-row">
+      <label for="node-config-input-host"><i class="fa fa-globe"></i> Host</label>
+      <input type="text" id="node-config-input-host">
+    </div>
+    <div class="form-row">
+      <label for="node-config-input-port"><i class="fa fa-server"></i> Port</label>
+      <input type="text" id="node-config-input-port">
+    </div>
+
+</script>
+
+<!-- Connector -->
+<script type="text/javascript">
+    /*global RED*/
+    RED.nodes.registerType('socketio-connector-advantage', {
+        category: 'input',
+        inputs: 0,
+        outputs: 1,
+        color: "#D8BFD8",
+        icon: "socketio.png",
+        paletteLabel: "socketio connector",
+        defaults: {
+            server: {
+                value: "",
+                type: "socketio-config-advantage"
+            },
+            namespace: {
+                value: "",
+                required: false
+            },
+            name: {
+                value: ""
+            },
+            api_key: {
+                value: "",
+                required: false,
+            }
+        },
+        label: function () {
+            return this.name || "Socket.IO Connector";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="socketio-connector-advantage">
+    <div class="form-row">
+      <label for="node-input-server"><i class="fa fa-globe"></i> Server</label>
+      <input type="text" id="node-input-server" placeholder="Server">
+    </div>
+    <div class="form-row">
+      <label for="node-input-namespace"><i class="icon-tasks"></i> namespace</label>
+      <input type="text" id="node-input-namespace" placeholder="Namespace">
+    </div>
+    <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+   <div class="form-row">
+      <label for="node-input-api_key"><i class="icon-tag"></i> api_key</label>
+      <input type="text" id="node-input-api_key" placeholder="api_key">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="socketio-connector-advantage">
+    <p>Socket.IO Connector</p>
+    <p>Provides a client for Socket.IO server</p>
+    <p>It's works only in couple with Socket.io Listener, bacause of this its output will be util only to a Socket.io Listener</p>
+    <pre>Socket.IO Connector -> Socket.IO Listener -> Payload</pre>
+
+</script>
+
+<!-- Listener -->
+<script type="text/javascript">
+    /*global RED*/
+    RED.nodes.registerType('socketio-listener-advantage', {
+        category: 'function',
+        inputs: 1,
+        outputs: 1,
+        color: "#D8BFD8",
+        icon: "socketio.png",
+        paletteLabel: "socketio listener",
+        defaults: {
+            eventname: {
+                value: "",
+                required: true
+            },
+            name: {
+                value: ""
+            }
+        },
+        label: function () {
+            return (this.name || this.eventname) || "Socket.IO listener";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="socketio-listener-advantage">
+    <div class="form-row">
+      <label for="node-input-eventname"><i class="icon-tasks"></i> Event Name</label>
+      <input type="text" id="node-input-eventname" placeholder="Event Name">
+    </div>
+    <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="socketio-listener-advantage">
+      <p>Socket.IO Listener</p>
+      <p>It's works only in couple with Socket.io Connector</p>
+      <pre>Socket.IO Connector -> Socket.IO Listener -> Payload</pre>
+      <p>The <code>msg.payload</code> will be whole content emitted through 'event name' that you specified</p>
+
+</script>
+
+
+<!-- Emitter -->
+<script type="text/javascript">
+    /*global RED*/
+    RED.nodes.registerType('socketio-emitter-advantage', {
+        category: 'function',
+        inputs: 1,
+        outputs: 1,
+        color: "#D8BFD8",
+        icon: "socketio.png",
+        paletteLabel: "socketio emitter",
+        defaults: {
+            eventname: {
+                value: "",
+                required: true
+            },
+            name: {
+                value: ""
+            }
+        },
+        label: function () {
+            return (this.name || this.eventname) || "Socket.IO emitter";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="socketio-emitter-advantage">
+    <div class="form-row">
+      <label for="node-input-eventname"><i class="icon-tasks"></i> Event Name</label>
+      <input type="text" id="node-input-eventname" placeholder="Event Name">
+    </div>
+    <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="socketio-emitter-advantage">
+      <p>Socket.IO emitter</p>
+      <p>It's works only in couple with Socket.io Connector</p>
+      <pre>Socket.IO Connector -> Socket.IO emitter -> Payload</pre>
+      <p>The <code>msg.payload</code> will be whole content emitted through 'event name' that you specified</p>
+
+</script>
+
